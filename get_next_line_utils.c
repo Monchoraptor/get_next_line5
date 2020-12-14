@@ -6,11 +6,34 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 18:02:25 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/13 18:02:42 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/14 20:46:18 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	j;
+	char	*aux;
+
+	if (!(aux = (char *)malloc(sizeof(*s) * (len + 1))))
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (i >= start && j < len)
+		{
+			aux[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	aux[j] = 0;
+	return (aux);
+}
 
 int		ft_strlen(const char *s)
 {

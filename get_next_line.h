@@ -6,7 +6,7 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:57:14 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/13 17:57:33 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/14 20:47:13 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int		get_next_line(int fd, char **line);
 char	*ft_strdup(char *s1);
 int		ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, const char *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
