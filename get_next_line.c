@@ -6,90 +6,86 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:57:49 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/14 21:50:18 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/16 22:17:29 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_empty(char **line)
+char	*ft_strchr(char *s, int c)
 {
 	int i;
 
 	i = 0;
-	while (line[i] != 0)
-		i++;
-	return (i);
-}
-
-int 	count_line(char *cache)
-{
-	int	i;
-
-	i = 0;
-	while ((cache[i] != '\n') && (cache[i] != '\0'))
-		i++;
-	if (cache[i] == '\n')
-		return (i);
-	return (i);
-}
-
-int		is_backslash_n(const char *s)
-{
-	int i;
-
-	i = 0;
-//	printf("\n###\n%s\n###\n",s);
-	while (*(s + i) != '\0')
+	while (s[i] != '\0')
 	{
-		if (s[i++] == '\n')
-			return (i - 1);
+		if (s[i] == '\n')
+			return (&(s[i]));
+		i++;
 	}
 	return (0);
 }
 
-int		get_next_line(int fd, char **line)
+void	update_cache(char **cache, char **line)
 {
-	static char	*cache;
-	char		buf[BUFFER_SIZE + 1];
-//	int			i;
-//	char		*aux;
-	int			bytes_read;
+	char	*aux;
+	char	*aux2;
+	char	*n;
 
-	if (!cache)
-		cache = ft_strdup("");
-//	printf("\n===\n%s\n===\n",cache);
+	aux = ft_strdup(*cache);
+	//:printf("aux :%s\n", aux); 
+	aux2 = ft_strdup(ft_strchr(*cache, '\n') + 1);
+	*(ft_strchr(aux, '\n')) = 0;
+	*line = ft_strdup(aux);
+//	free(aux);
+//	free(cache);
+	*cache = aux2;
+}
+
+int	get_next_line(int fd, char **line)
+{
+	static char	*cache[4096];
+	char		*buf;
+	int			bytes_read;
+	char		*aux;
+
+	if (!(buf = malloc(BUFFER_SIZE + 1)))
+		return (-1);
+	if (!cache[fd])
+		cache[fd] = ft_strdup("");
 	if (!line || fd < 0 || BUFFER_SIZE <= 0 ||
 			(bytes_read = read(fd, buf, 0)) < 0)
 	{
 		free(buf);
 		return (-1);
 	}
-	while ((bytes_read = read(fd, buf, BUFFER_SIZE)) == BUFFER_SIZE)
-//			&& is_backslash_n(cache) != 0 && ft_strlen(cache))
+	printf("1\n");
+	while ((bytes_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
+	printf("2\n");
 		buf[bytes_read] = '\0';
-//		printf("\n@@@\n%s\n@@@\n", buf);
-		cache = ft_strjoin(cache, buf);	
+	printf("3\n");
+		aux = ft_strjoin(cache[fd], buf);
+	printf("4\n");
+		free(cache[fd]);
+	printf("5\n");
+		cache[fd] = aux;
+	printf("6\n");
+		if (ft_strchr(cache[fd], '\n'))
+		{
+	printf("7\n");
+//			printf("%s", ft_strchr(cache[fd], '\n'));
+			break ;
+		}
+	printf("----------------------------------------------------8\n");
+	printf("----------------------------------------------------8\n");
+	printf("----------------------------------------------------8\n");
+	printf("----------------------------------------------------8\n");
+	printf("----------------------------------------------------8\n");
 	}
-		buf[bytes_read] = '\0';
-	cache = ft_strjoin(cache, buf);	
-//	printf("\n@1@@\n%i\n@@@\n", bytes_read);
-//	printf("\n@2@@\n%i\n@@@\n", is_backslash_n(cache));
-//	printf("\n@3@@\n%i\n@@@\n", ft_strlen(cache));
-	if (is_backslash_n(cache) == 0)
-	{
-		*line = ft_strdup(cache);
-		return (0);
-	}
-	if (is_backslash_n(cache) != 0)
-	{
-	*line = ft_substr(cache, 0, count_line(cache));
-	cache =ft_substr(cache, count_line(cache) + 1, ft_strlen(cache));
-	printf("\n---\n%s\n---\n",*line);
-	}
-	if (is_backslash_n(cache) == 0)
-		*line = ft_strdup(cache);
-		return (0);
-	return (1);	
+	update_cache(&(cache[fd]), line);
+	free(buf);
+	if (ft_strlen(cache[fd]) > 0)
+		return(1);
+	return (0);
 }

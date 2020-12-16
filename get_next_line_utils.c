@@ -6,7 +6,7 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 18:02:25 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/14 20:46:18 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/16 21:01:16 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (aux);
 }
 
-int		ft_strlen(const char *s)
+size_t		ft_strlen(const char *s)
 {
 	int i;
 

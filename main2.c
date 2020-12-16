@@ -34,7 +34,7 @@ int main() {
 //		free(a[j++]);
 //	}
 //	free(a);
-//	system("leaks a.out");
+	//system("leaks a.out");
 	char	*line;
 	int		fd;
 	int		status;
@@ -42,14 +42,15 @@ int main() {
 
 		fd = open("prueba", O_RDONLY);
 	line_count = 0;
-	while (((status = get_next_line(fd, &line)) == 1))
+	while (((status = get_next_line(fd, &line)) == 1) && line_count <40)
 	{
 		printf(" %i = %p | %s \n", line_count, line, line);
-		//free(line);
+		free(line);
 		line_count++;
 	}
 		printf(" %i = %p | %s \n", line_count, line, line);
 	if (status == 0)
 		free(line);
+	//system("leaks a.out");
 	return (0);
 		}
