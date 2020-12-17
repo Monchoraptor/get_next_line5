@@ -6,7 +6,7 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 18:02:25 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/16 21:01:16 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/17 22:25:43 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (aux);
 }
 
-size_t		ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	int i;
 
@@ -65,6 +65,21 @@ char	*ft_strdup(char *s1)
 	*(p + i) = 0;
 	return (p);
 }
+
+char	*ft_strchr(char *s, int c)
+{
+	int i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+			return (&(s[i]));
+		i++;
+	}
+	return (0);
+}
+
 char	*ft_strjoin(char *s1, const char *s2)
 {
 	size_t	i;

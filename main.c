@@ -1,31 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/17 16:18:32 by mmartin-          #+#    #+#             */
+/*   Updated: 2020/12/17 22:31:26 by amoracho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+#include <unistd.h>
+#include <fcntl.h>
 
-int main() {
+int		main(int argc, char **argv)
+{
+	int		fd;
+	int		status;
+	char	*line;
 
-//	char *s1= "";
-//	char s2[] = "qwerty";
-//	printf("======>%s\n", ft_strjoin(s1, s2));
-//	(void)argc;
-//	(void)argv;
-	char **a;
-	a = malloc(sizeof(char *) * 2000);
-	int fd = open("prueba",O_RDONLY);
-
-	int i = 0;
-//	int r;
-//	printf("1\n");
-	while (get_next_line(fd, a) == 1)
+	fd = open("empty_lines", O_RDONLY);
+	while ((status = get_next_line(fd, &line)) == 1)
 	{
-		printf(" %i = %p | %s \n", i, a[i], a[i]);
-		i++;
+		printf("%.16p | %s\n", line, line);
+		free(line);
 	}
-	printf(" %i = %p | %s \n", i, a[i], a[i]);
-
-	int j = 0;
-	while (a[j] != NULL)
-	{
-		free(a[j++]);
-	}
-	free(a);
-	return (0);
+	if (status == 0)
+		free(line);
+	system("leaks a.out");
 }
+

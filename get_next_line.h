@@ -6,7 +6,7 @@
 /*   By: amoracho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:57:14 by amoracho          #+#    #+#             */
-/*   Updated: 2020/12/16 21:01:54 by amoracho         ###   ########.fr       */
+/*   Updated: 2020/12/17 22:23:08 by amoracho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ char	*ft_strdup(char *s1);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *s1, const char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strchr(char *s, int c);
 
 #endif
