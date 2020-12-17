@@ -26,20 +26,56 @@ char	*ft_strchr(char *s, int c)
 	return (0);
 }
 
-void	update_cache(char **cache, char **line)
+void	save_line(char **cache, char **line)
 {
 	char	*aux;
 	char	*aux2;
 	char	*n;
 
+//	printf("21\n");
 	aux = ft_strdup(*cache);
-	//:printf("aux :%s\n", aux); 
-	aux2 = ft_strdup(ft_strchr(*cache, '\n') + 1);
-	*(ft_strchr(aux, '\n')) = 0;
-	*line = ft_strdup(aux);
-//	free(aux);
-//	free(cache);
-	*cache = aux2;
+	printf("22\n");
+	//:printf("aux :%s\n", aux);
+	if ((ft_strchr(*cache, '\n') != 0))
+	{
+		aux2 = ft_strdup(ft_strchr(*cache, '\n') + 1);
+		printf("23\n");
+		*(ft_strchr(aux, '\n')) = 0;
+		printf("24\n");
+		*line = ft_strdup(aux);
+	}else {
+		aux2 = 0;
+		printf("25\n");
+		*cache = aux2;
+		printf("26\n");
+	}
+}
+
+int checks(int fd, char **line, char **cache, char **buf)
+{
+	int	bytes_read;
+
+	if (!(*buf = malloc(BUFFER_SIZE + 1)))
+		return (-1);
+	if (!line || fd < 0 || BUFFER_SIZE <= 0 ||
+		(bytes_read = read(fd, *buf, 0)) < 0)
+	{
+		free(*buf);
+		*buf = NULL;
+		return (-1);
+	}
+	if (!*cache)
+		*cache = ft_strdup("");
+	return (0);
+}
+
+void add_cache(char **cache, char **buf,char **aux, int bytes_read)
+{
+	(*buf)[bytes_read] = '\0';
+//	printf("%s\n", *buf);
+	*aux = ft_strjoin(*cache, *buf);
+	free(*cache);
+	*cache = *aux;
 }
 
 int	get_next_line(int fd, char **line)
@@ -49,43 +85,19 @@ int	get_next_line(int fd, char **line)
 	int			bytes_read;
 	char		*aux;
 
-	if (!(buf = malloc(BUFFER_SIZE + 1)))
+	printf("11\n");
+	if (checks(fd, line, &(cache[fd]), &buf) != 0)
 		return (-1);
-	if (!cache[fd])
-		cache[fd] = ft_strdup("");
-	if (!line || fd < 0 || BUFFER_SIZE <= 0 ||
-			(bytes_read = read(fd, buf, 0)) < 0)
-	{
-		free(buf);
-		return (-1);
-	}
-	printf("1\n");
+	printf("12\n");
 	while ((bytes_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-	printf("2\n");
-		buf[bytes_read] = '\0';
-	printf("3\n");
-		aux = ft_strjoin(cache[fd], buf);
-	printf("4\n");
-		free(cache[fd]);
-	printf("5\n");
-		cache[fd] = aux;
-	printf("6\n");
+//		printf("12\n");
+		add_cache(&(cache[fd]), &buf, &aux, bytes_read);
+//		printf("13\n");
 		if (ft_strchr(cache[fd], '\n'))
-		{
-	printf("7\n");
-//			printf("%s", ft_strchr(cache[fd], '\n'));
 			break ;
-		}
-	printf("----------------------------------------------------8\n");
-	printf("----------------------------------------------------8\n");
-	printf("----------------------------------------------------8\n");
-	printf("----------------------------------------------------8\n");
-	printf("----------------------------------------------------8\n");
+//		printf("14\n");
 	}
-	update_cache(&(cache[fd]), line);
-	free(buf);
-	if (ft_strlen(cache[fd]) > 0)
-		return(1);
-	return (0);
+	save_line(&(cache[fd]), line);
+
 }

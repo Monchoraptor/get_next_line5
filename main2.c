@@ -42,15 +42,21 @@ int main() {
 
 		fd = open("prueba", O_RDONLY);
 	line_count = 0;
-	while (((status = get_next_line(fd, &line)) == 1) && line_count <40)
+	while (((status = get_next_line(fd, &line)) == 1))
 	{
+		printf("97\n");
 		printf(" %i = %p | %s \n", line_count, line, line);
-		free(line);
+		printf("98\n");
+		if(*line)
+			free(line);
+		printf("--------------------------------------\n");
+		printf("--------------------------------------\n");
+		printf("--------------------------------------\n");
 		line_count++;
 	}
 		printf(" %i = %p | %s \n", line_count, line, line);
-	if (status == 0)
-		free(line);
+//	if (status == 0)
+//		free(line);
 	//system("leaks a.out");
 	return (0);
 		}
